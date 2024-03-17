@@ -158,12 +158,12 @@ while (t<max_Iter && (tu1>tol|| tv1>tol))
         scale = sqrt(V' * Y{5}' * Y{5} * V);
         V1{5} = V1{5} ./ scale;
         
-    obj = norm(Xall*U1(:,1)-Y{1}*V1{1})^ 2 + norm(Xall*U1(:,2)-Y{2}*V1{2})^ 2 + norm(Xall*U1(:,3)-Y{3}*V1{3})^ 2 ... 
-    + norm(Xall*U1(:,4)-Y{4}*V1{4})^ 2 + norm(Xall*U1(:,5)-Y{5}*V1{5})^ 2;
+    obj = norm(Xall*U1(:,1) - Y{1}*V1{1})^ 2 + norm(Xall*U1(:,2) - Y{2}*V1{2})^ 2 + norm(Xall*U1(:,3) - Y{3}*V1{3})^ 2 ... 
+    + norm(Xall*U1(:,4) - Y{4}*V1{4})^ 2 + norm(Xall*U1(:,5) - Y{5}*V1{5})^ 2;
     grad_W = 2 * lambda0 * obj.*W...
             + lambda1 * balance_gradfast(W, Xall) * ones(p,1)...
             + 4 * lambda2*W.*W.*W...           
-            + 4*lambda5*(sum(W.*W)-1)*W;
+            + 4 * lambda5*(sum(W.*W)-1)*W;
         W = W - lambda_W*grad_W;
         W = W./sqrt(sum(W.*W));
         W = W.*W;  
@@ -208,13 +208,13 @@ function [D] = updateD_FGL21(u1, u2, u3, u4, u5)
 ulen = length(u1);
 for i = 1:ulen
     if i == 1
-        d(i) = sqrt(u1(i).^2+u2(i).^2+u3(i).^2+u4(i).^2+u5(i).^2+u1(i+1).^2+u2(i+1).^2+u3(i+1).^2+u4(i+1).^2+u5(i+1).^2+eps);
+        d(i) = sqrt(u1(i).^2 + u2(i).^2 + u3(i).^2 + u4(i).^2 + u5(i).^2 + u1(i+1).^2 + u2(i+1).^2 + u3(i+1).^2 + u4(i+1).^2 + u5(i+1).^2 + eps);
         d(i) = 0.5 ./ d(i);
     elseif i==ulen
-        d(i) = sqrt(u1(i-1).^2+u2(i-1).^2+u3(i-1).^2+u4(i-1).^2+u5(i-1).^2+u1(i).^2+u2(i).^2+u3(i).^2+u4(i).^2+u5(i).^2+eps);
+        d(i) = sqrt(u1(i-1).^2 + u2(i-1).^2 + u3(i-1).^2 + u4(i-1).^2 + u5(i-1).^2 + u1(i).^2 + u2(i).^2 + u3(i).^2 + u4(i).^2 + u5(i).^2 + eps);
         d(i) = 0.5 ./ d(i);
     else
-        d(i) = 0.5./(sqrt(u1(i-1).^2+u2(i-1).^2+u3(i-1).^2+u4(i-1).^2+u5(i-1).^2+u1(i).^2+u2(i).^2+u3(i).^2+u4(i).^2+u5(i).^2+eps))+0.5./(sqrt(u1(i).^2+u2(i).^2+u3(i).^2+u4(i).^2+u5(i).^2+u1(i+1).^2+u2(i+1).^2+u3(i+1).^2+u4(i+1).^2+u5(i+1).^2+eps));
+        d(i) = 0.5./(sqrt(u1(i-1).^2 + u2(i-1).^2 + u3(i-1).^2 + u4(i-1).^2 + u5(i-1).^2 + u1(i).^2 + u2(i).^2 + u3(i).^2 + u4(i).^2 + u5(i).^2 + eps)) + 0.5./(sqrt(u1(i).^2 + u2(i).^2 + u3(i).^2 + u4(i).^2 + u5(i).^2 + u1(i+1).^2 + u2(i+1).^2 + u3(i+1).^2 + u4(i+1).^2 + u5(i+1).^2 + eps));
     end
     D = d;
 end
