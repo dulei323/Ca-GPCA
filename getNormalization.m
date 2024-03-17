@@ -1,17 +1,4 @@
 function Y = getNormalization(X, type)
-% --------------------------------------------------------------------
-% Normalizating data set
-% --------------------------------------------------------------------
-% Input:
-%       - X, input data
-% Output:
-%       - X_out, output data
-%------------------------------------------
-% Author: Lei Du, leidu@iu.edu
-% Date created: DEC-19-2014
-% Updated: Jan-16-2015
-% @Indiana University School of Medicine.
-% -----------------------------------------
 
 if nargin < 2
     type = 'std';
