@@ -221,5 +221,35 @@ end
 end
 
 
-
-
+function g_w = balance_gradfast(W, X)
+    n = size(X, 1); 
+    m = size(X, 2); 
+    g_w = zeros(n, m); 
+    block = 50;
+    nblock = ceil(m/block);
+    for iu = 1:nblock
+        if iu*block <= m
+            for i = (1+(iu-1)*block:iu*block)
+                for j =( 1+(iu-1)*block:iu*block)
+                    J1 = ((W.*W)'*X(:,i).*X(:,j))./n...
+                        -X(:,i)'*(W.*W)*X(:,j)'*(W.*W)./(n^2);
+                    dJ1W = (X(:,i).*X(:,j))./n-(X(:,i)*X(:,j)'*(W.*W)+ X(:,j)*X(:,i)'*(W.*W))./(n^2);
+                    dJ1W =  dJ1W.*W;
+                    g_w(:,i) = 2*dJ1W'*J1;
+                end
+            end        
+        else
+             for i = (1+(iu-1)*block: m)
+                for j = (1+(iu-1)*block: m)               
+                    J1 = ((W.*W)'*X(:,i).*X(:,j))./n...
+                        -X(:,i)'*(W.*W)*X(:,j)'*(W.*W)./(n^2);                    
+                    dJ1W = (X(:,i).*X(:,j))./n-(X(:,i)*X(:,j)'*(W.*W)+ X(:,j)*X(:,i)'*(W.*W))./(n^2);                   
+                    dJ1W =  dJ1W.*W;
+                    g_w(:,i) = 2*dJ1W'*J1;
+                end
+            end
+                 
+        end
+        
+    end
+end
